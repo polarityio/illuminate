@@ -1,0 +1,85 @@
+{{#each details.results as |result index|}}
+    {{#if (gt index 0)}}
+      <hr>
+    {{/if}}
+    <h1 class="p-title">
+      {{fa-icon "info" fixedWidth=true}} Indicator Details
+    </h1>
+    {{#if result.id}}
+      <div>
+          <span><a href="{{block.userOptions.url}}/indicators/{{result.id}}">Pivot to Indicator #{{inc index}} {{fa-icon "external-link-square" class="external-link-icon"}}</a></span>
+      </div>
+    {{/if}}
+    {{#if result.value.name}}
+      <div>
+        <span class="p-key">Indicator Value: </span>
+        <span class="p-value">{{result.value.name}}</span>
+      </div>
+    {{/if}}
+    {{#if result.type}}
+      <div>
+          <span class="p-key">Indicator Type: </span>
+          <span class="p-value">{{result.type}}</span>
+      </div>
+    {{/if}}
+    {{#if result.reportedDates}}
+      {{#each result.reportedDates as |date|}}
+        <div>
+            <span class="p-key">Indicator Reported Date(s): </span>
+            <span class="p-value">{{date.date}}</span>
+        </div>
+      {{/each}}
+    {{/if}}
+    {{#if result.active}}
+      <div>
+          <span class="p-key">Indicator Status: </span>
+          <span class="p-value">{{result.active}}</span>
+      </div>
+    {{/if}}
+    {{#if result.tlp}}
+      <div>
+          <span class="p-key">Indicator TLP: </span>
+          <span class="p-value">{{result.tlp}}</span>
+      </div>
+    {{/if}}
+    {{#if result.tlpResolution}}
+      <div>
+          <span class="p-key">TLP Resolution Status: </span>
+          <span class="p-value">{{result.tlpResolution}}</span>
+      </div>
+    {{/if}}
+    {{#if result.description.name}}
+      <span class="p-key">Indicator Description: </span>
+      <pre>{{result.description.name}}</pre>
+    {{/if}}
+    {{#if (gt result.targets.length 0)}}
+      <h1 class="p-title">{{fa-icon "bullseye" fixedWidth=true}} Targets</h1>
+      {{#each result.targets as | target |}}
+        <span class="tag">{{target.name}}</span>
+      {{/each}}
+    {{/if}}
+    {{#if (gt result.attackPatterns.length 0)}}
+      <h1 class="p-title">{{fa-icon "mace" fixedWidth=true}} Attack Patterns</h1>
+      {{#each result.attackPatterns as | pattern |}}
+        <span class="tag">{{pattern.name}}</span>
+      {{/each}}
+    {{/if}}
+    {{#if (gt result.actors.length 0)}}
+      <h1 class="p-title">{{fa-icon "user-secret" fixedWidth=true}} Actors</h1>
+      {{#each result.actors as | actor |}}
+        <span class="tag">{{actor.name}}</span>
+      {{/each}}
+    {{/if}}
+    {{#if (gt result.malwares.length 0)}}
+      <h1 class="p-title">{{fa-icon "viruses" fixedWidth=true}} Malwares</h1>
+      {{#each result.malwares as | malware |}}
+        <span class="tag">{{malware.name}}</span>
+      {{/each}}
+    {{/if}}
+    {{#if (gt result.fileNames.length 0)}}
+      <h1 class="p-title">{{fa-icon "file" fixedWidth=true}} File Names</h1>
+      {{#each result.fileNames as | file |}}
+        <span class="tag">{{file.name}}</span>
+      {{/each}}
+    {{/if}}
+{{/each}}
