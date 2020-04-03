@@ -12,33 +12,45 @@
     {{/if}}
     {{#if result.value.name}}
       <div>
-        <span class="p-key">Indicator Value: </span>
+        <span class="p-key">Value: </span>
         <span class="p-value">{{result.value.name}}</span>
       </div>
     {{/if}}
     {{#if result.type}}
       <div>
-          <span class="p-key">Indicator Type: </span>
+          <span class="p-key">Type: </span>
           <span class="p-value">{{result.type}}</span>
       </div>
     {{/if}}
-    {{#if result.reportedDates}}
-      {{#each result.reportedDates as |date|}}
-        <div>
-            <span class="p-key">Indicator Reported Date(s): </span>
-            <span class="p-value">{{date.date}}</span>
-        </div>
-      {{/each}}
-    {{/if}}
+    <div>
+      <span class="p-key">Confidence: </span>
+      <span class="p-value">{{#if result.confidenceLevel}}{{result.confidenceLevel}}{{else}}Unspecified{{/if}}</span>
+    </div>
     {{#if result.active}}
       <div>
-          <span class="p-key">Indicator Status: </span>
-          <span class="p-value">{{result.active}}</span>
+        <span class="p-key">Active Status: </span>
+        <span class="p-value">{{#if result.active}}Yes{{else}}No{{/if}}</span>
       </div>
+    {{/if}}
+    {{#if result.benign}}
+      <div>
+        <span class="p-key">Benign: </span>
+        <span class="p-value">{{#if result.benign.value}}Yes{{else}}No{{/if}}</span>
+      </div>
+    {{/if}}
+    {{#if result.reportedDates}}
+        <div>
+            <span class="p-key">Reported Date(s): </span>
+            {{#each result.reportedDates as |date dateIndex|}}
+                <span class="p-value">
+                    {{date.date}}{{#if (lt dateIndex result.reportedDates.length)}}, {{/if}}
+                </span>
+            {{/each}}
+        </div>
     {{/if}}
     {{#if result.tlp}}
       <div>
-          <span class="p-key">Indicator TLP: </span>
+          <span class="p-key">TLP: </span>
           <span class="p-value">{{result.tlp}}</span>
       </div>
     {{/if}}
@@ -49,7 +61,7 @@
       </div>
     {{/if}}
     {{#if result.description.name}}
-      <span class="p-key">Indicator Description: </span>
+      <span class="p-key">Description: </span>
       <pre>{{result.description.name}}</pre>
     {{/if}}
     {{#if (gt result.targets.length 0)}}

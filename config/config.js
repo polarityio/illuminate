@@ -5,7 +5,7 @@ module.exports = {
    * @type String
    * @required
    */
-  name: 'Illuminate Indicator Lookup',
+  name: 'illuminate Indicator Lookup',
   /**
    * The acronym that appears in the notification window when information from this integration
    * is displayed.  Note that the acronym is included as part of each "tag" in the summary information
@@ -22,7 +22,7 @@ module.exports = {
    * @type String
    * @optional
    */
-  description: 'Illuminate is a threat intelligence platform',
+  description: 'illuminate is a threat intelligence platform',
   entityTypes: ['IPv4', 'IPv6', 'domain', 'hash', 'email'],
   /**
    * Provide custom component logic and template for rendering the integration details block.  If you do not
@@ -75,8 +75,8 @@ module.exports = {
   options: [
     {
       key: 'url',
-      name: 'Illuminate API URL',
-      description: 'The base URL for the Illuminate API to include the schema (https://) and port as needed',
+      name: 'illuminate API URL',
+      description: 'The base URL for the illuminate API to include the schema (https://) and port as needed',
       default: '',
       type: 'text',
       userCanEdit: false,
@@ -85,7 +85,7 @@ module.exports = {
     {
       key: 'userName',
       name: 'User Name',
-      description: 'Valid Illuminate Username',
+      description: 'Valid illuminate Username',
       default: '',
       type: 'text',
       userCanEdit: false,
@@ -94,7 +94,7 @@ module.exports = {
     {
       key: 'password',
       name: 'Password',
-      description: 'Valid Illuminate Password',
+      description: 'Valid illuminate Password',
       default: '',
       type: 'password',
       userCanEdit: false,
