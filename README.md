@@ -1,22 +1,22 @@
-# Polarity Illuminate Integration
+# Polarity illuminate Integration
 
 The Polarity illuminate integration allows Polarity to quickly identify indicators contained within the illuminate platform.
 
 ![](assets/overlay.png)
 
-## Illuminate Integration Options
+## illuminate Integration Options
 
-### Illuminate API URL
+### illuminate API URL
 
-The base URL for the Illuminate API to include the schema (https://) and port as needed
+The base URL for the illuminate API to include the schema (https://) and port as needed
 
 ### User Name
 
-Valid Illuminate Username
+Valid illuminate Username
 
 ### Password
 
-Valid Illuminate Password
+Valid illuminate Password
 
 ### Match Indicator Values
 
