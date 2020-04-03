@@ -169,15 +169,19 @@ function _getSummaryTags(result, options) {
 }
 
 const _isMiss = (body, options) => {
+  if(body === null || typeof body === 'undefined'){
+    return true;
+  }
+
   let noValidReturnValues;
   if (options.doIndicatorMatchSearch) {
-    // misses are handled vi a 404 return code so we don't need to check the payload
+    // misses are handled via a 404 return code so we don't need to check the payload
     noValidReturnValues = false;
   } else {
     noValidReturnValues = !(Array.isArray(body.results) && body.results.length > 0);
   }
 
-  return !body || noValidReturnValues;
+  return noValidReturnValues;
 };
 
 function handleRestError(error, entity, res, body) {
