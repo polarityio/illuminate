@@ -24,7 +24,7 @@
     {{/if}}
     <div>
       <span class="p-key">Confidence: </span>
-      <span class="p-value">{{#if result.confidenceLevel}}{{result.confidenceLevel}}{{else}}Unspecified{{/if}}</span>
+      <span class="p-value">{{#if result.confidenceLevel}}{{result.confidenceLevel.value}}{{else}}Unspecified{{/if}}</span>
     </div>
     {{#if result.active}}
       <div>
