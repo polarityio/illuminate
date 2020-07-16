@@ -1,8 +1,10 @@
 # Polarity illuminate Integration
 
-The Polarity illuminate integration allows Polarity to quickly identify indicators contained within the illuminate platform.
+The Polarity illuminate integration allows Polarity to quickly identify indicators and CVEs contained within the illuminate platform.
 
-![](assets/overlay.png)
+| ![overlay window](assets/overlay.png) | ![risk history](assets/cve.png) |
+|---|--|
+|*illuminate Indicator results* | *illuminate CVE results* |
 
 ## illuminate Integration Options
 
