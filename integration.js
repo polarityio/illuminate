@@ -2,6 +2,7 @@
 
 const request = require('request');
 const config = require('./config/config');
+const get = require('lodash.get');
 const async = require('async');
 const fs = require('fs');
 
@@ -9,6 +10,7 @@ let Logger;
 let requestWithDefaults;
 
 const MAX_PARALLEL_LOOKUPS = 10;
+const MAX_ACTORS_IN_SUMMARY = 5;
 
 /**
  *
@@ -99,21 +101,44 @@ function getSearchRequestOptions(entity, options) {
   };
 }
 
+function getCveSearchOptions(entity, options) {
+  const url = options.url.endsWith('/') ? options.url : `${options.url}/`;
+
+  return {
+    method: 'GET',
+    uri: `${url}api/1_0/actor`,
+    qs: {
+      cve: entity.value
+    },
+    auth: {
+      user: options.userName,
+      pass: options.password
+    },
+    json: true
+  };
+}
+
 function doLookup(entities, options, cb) {
   let lookupResults = [];
   let tasks = [];
 
-  Logger.debug({entities, options}, 'doLookup');
+  Logger.debug({ entities, options }, 'doLookup');
 
   entities.forEach((entity) => {
-    let requestOptions = options.doIndicatorMatchSearch
-      ? getIndicatorMatchRequestOptions(entity, options)
-      : getSearchRequestOptions(entity, options);
+    let requestOptions;
+
+    if (entity.type === 'cve') {
+      requestOptions = getCveSearchOptions(entity, options);
+    } else {
+      requestOptions = options.doIndicatorMatchSearch
+        ? getIndicatorMatchRequestOptions(entity, options)
+        : getSearchRequestOptions(entity, options);
+    }
 
     Logger.trace({ requestOptions }, 'Request Options');
 
-    tasks.push(function(done) {
-      requestWithDefaults(requestOptions, function(error, res, body) {
+    tasks.push(function (done) {
+      requestWithDefaults(requestOptions, function (error, res, body) {
         Logger.trace({ body }, 'Body');
         let processedResult = handleRestError(error, entity, res, body);
 
@@ -144,8 +169,9 @@ function doLookup(entities, options, cb) {
         lookupResults.push({
           entity: result.entity,
           data: {
-            summary: _getSummaryTags(result, options),
-            details: Array.isArray(result.body.results) ? result.body : { totalResults: 1, results: [result.body] }
+            summary:
+              result.entity.type === 'cve' ? _getCveSummaryTags(result, options) : _getSummaryTags(result, options),
+            details: _getDetails(result.entity, result.body)
           }
         });
       }
@@ -154,6 +180,43 @@ function doLookup(entities, options, cb) {
     Logger.debug({ lookupResults }, 'Results');
     cb(null, lookupResults);
   });
+}
+
+function _getDetails(entity, body) {
+  if (entity.type === 'cve') {
+    let actors = body.results.map((actor) => {
+      return {
+        name: get(actor, 'title.name', 'No Name'),
+        id: get(actor, 'id', null)
+      };
+    });
+    return { actors, results: [] };
+  }
+
+  if (Array.isArray(body.results)) {
+    return { results: body.results };
+  }
+
+  return { totalResults: 1, results: [body] };
+}
+
+function _getCveSummaryTags(result, options) {
+  const tags = [];
+  if (Array.isArray(result.body.results)) {
+    for (let i = 0; i < result.body.results.length && i < MAX_ACTORS_IN_SUMMARY; i++) {
+      const actor = result.body.results[i];
+      const actorName = get(actor, 'title.name');
+      if (actorName) {
+        tags.push(`Actor: ${actorName}`);
+      }
+    }
+  }
+
+  if (tags.length < result.body.results.length) {
+    tags.push(`+${result.body.results.length - tags.length} more actors`);
+  }
+
+  return tags;
 }
 
 function _getSummaryTags(result, options) {
@@ -165,11 +228,18 @@ function _getSummaryTags(result, options) {
   } else {
     tags.push(`Results: ${result.body.totalResults}`);
   }
+
+  if (Array.isArray(result.body.actors)) {
+    result.body.actors.forEach((actor) => {
+      tags.push(`Actor: ${actor.name}`);
+    });
+  }
+
   return tags;
 }
 
 const _isMiss = (body, options) => {
-  if(body === null || typeof body === 'undefined'){
+  if (body === null || typeof body === 'undefined') {
     return true;
   }
 
@@ -183,6 +253,61 @@ const _isMiss = (body, options) => {
 
   return noValidReturnValues;
 };
+
+function getActorById(entity, actor, options, cb) {
+  const url = options.url.endsWith('/') ? options.url : `${options.url}/`;
+
+  const requestOptions = {
+    method: 'GET',
+    uri: `${url}api/1_0/actor/${actor.id}`,
+    auth: {
+      user: options.userName,
+      pass: options.password
+    },
+    json: true
+  };
+
+  Logger.info({ requestOptions }, 'getActorById');
+  requestWithDefaults(requestOptions, (error, result, body) => {
+    let processedResult = handleRestError(error, entity, result, body);
+    Logger.info({ processedResult }, 'Processed Result');
+    if (processedResult.error) {
+      cb(processedResult);
+      return;
+    }
+
+    cb(null, processedResult);
+  });
+}
+
+function onDetails(lookupResult, options, cb) {
+  if (lookupResult.entity.type !== 'cve') {
+    cb(null, lookupResult.data);
+  }
+
+  const actors = [];
+
+  async.each(
+    lookupResult.data.details.actors,
+    (actor, done) => {
+      getActorById(lookupResult.entity, actor, options, (err, result) => {
+        if (err) {
+          return done(err);
+        }
+        actors.push(result.body);
+        done();
+      });
+    },
+    (err) => {
+      if (err) {
+        return cb(err);
+      }
+      lookupResult.data.details.results = actors;
+      Logger.info({ 'block.data.details.results': lookupResult.data.details.results }, 'onDetails Result');
+      cb(err, lookupResult.data);
+    }
+  );
+}
 
 function handleRestError(error, entity, res, body) {
   let result;
@@ -221,6 +346,7 @@ function handleRestError(error, entity, res, body) {
 }
 
 module.exports = {
-  doLookup: doLookup,
-  startup: startup
+  doLookup,
+  startup,
+  onDetails
 };
