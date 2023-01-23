@@ -1,0 +1,65 @@
+{
+  "name": "Analyst1 Platform",
+  "acronym": "AN1",
+  "description": "Analyst1 is a threat intelligence platform",
+  "entityTypes": ["IPv4", "IPv6", "domain", "hash", "email", "cve"],
+  "defaultColor": "light-gray",
+  "styles": ["./styles/ill.less"],
+  "block": {
+    "component": {
+      "file": "./components/block.js"
+    },
+    "template": {
+      "file": "./templates/block.hbs"
+    }
+  },
+  "request": {
+    "cert": "",
+    "key": "",
+    "passphrase": "",
+    "ca": "",
+    "proxy": "",
+    "rejectUnauthorized": true
+  },
+  "logging": {
+    "level": "info"
+  },
+  "options": [
+    {
+      "key": "url",
+      "name": "Analyst1 API URL",
+      "description": "The base URL for the Analyst1 API to include the schema (https://) and port as needed",
+      "default": "",
+      "type": "text",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "userName",
+      "name": "User Name",
+      "description": "Valid Analyst1 Username",
+      "default": "",
+      "type": "text",
+      "userCanEdit": false,
+      "adminOnly": false
+    },
+    {
+      "key": "password",
+      "name": "Password",
+      "description": "Valid Analyst1 Password",
+      "default": "",
+      "type": "password",
+      "userCanEdit": false,
+      "adminOnly": false
+    },
+    {
+      "key": "doIndicatorMatchSearch",
+      "name": "Match Indicator Values",
+      "description": "If checked, the integration will only return results for a matched indicator value.  If unchecked, a full text search will be run for the given indicator.  To prevent large amounts of false positives it is recommended to keep this option checked.",
+      "default": true,
+      "type": "boolean",
+      "userCanEdit": false,
+      "adminOnly": true
+    }
+  ]
+}
