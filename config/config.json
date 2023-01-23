@@ -2,17 +2,9 @@
   "name": "Analyst1 Platform",
   "acronym": "AN1",
   "description": "Analyst1 is a threat intelligence platform",
-  "entityTypes": [
-    "IPv4",
-    "IPv6",
-    "domain",
-    "hash",
-    "email",
-    "cve"
-  ],
-  "styles": [
-    "./styles/ill.less"
-  ],
+  "entityTypes": ["IPv4", "IPv6", "domain", "hash", "email", "cve"],
+  "defaultColor": "light-gray",
+  "styles": ["./styles/ill.less"],
   "block": {
     "component": {
       "file": "./components/block.js"
