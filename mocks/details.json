@@ -1,0 +1,166 @@
+{
+  "results": [
+    {
+      "id": "5f8a7b2c1d4e3a001f9c8d7e",
+      "value": {
+        "name": "malicious-domain.example.com",
+        "id": "val_123456"
+      },
+      "type": "domain",
+      "riskScore": 85,
+      "activityRange": {
+        "startDate": "2023-06-15",
+        "endDate": "2024-01-14"
+      },
+      "confidenceLevel": {
+        "value": "high",
+        "score": 90,
+        "source": "analyst_verified"
+      },
+      "tlp": "amber",
+      "tlpResolution": "resolved",
+      "active": true,
+      "benign": {
+        "value": false,
+        "reason": "associated_with_malware"
+      },
+      "description": {
+        "name": "Domain associated with APT29 campaign targeting financial institutions",
+        "id": "desc_789"
+      },
+      "country": {
+        "name": "Russian Federation",
+        "code": "RU"
+      },
+      "actors": [
+        {
+          "name": "APT29",
+          "id": "actor_001"
+        },
+        {
+          "name": "Cozy Bear",
+          "id": "actor_002"
+        }
+      ],
+      "akas": [
+        {
+          "name": "malicious-domain.net",
+          "id": "aka_001"
+        }
+      ],
+      "targets": [
+        {
+          "name": "Financial Services",
+          "id": "target_123"
+        },
+        {
+          "name": "Government Agencies",
+          "id": "target_456"
+        }
+      ],
+      "attackPatterns": [
+        {
+          "name": "Spearphishing Attachment",
+          "id": "attack_pattern_001",
+          "mitreId": "T1566.001"
+        },
+        {
+          "name": "Command and Control",
+          "id": "attack_pattern_002",
+          "mitreId": "T1071"
+        }
+      ],
+      "malwares": [
+        {
+          "name": "WellMess",
+          "id": "malware_001"
+        },
+        {
+          "name": "SUNBURST",
+          "id": "malware_002"
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "Operation Ghost",
+          "id": "campaign_001"
+        }
+      ],
+      "fileNames": [
+        {
+          "name": "update.exe",
+          "id": "file_001"
+        }
+      ],
+      "cves": [
+        {
+          "name": "CVE-2023-12345",
+          "id": "cve_001"
+        }
+      ],
+      "reportedDates": [
+        {
+          "date": "2023-08-10",
+          "source": "internal"
+        },
+        {
+          "date": "2023-09-22",
+          "source": "third_party"
+        }
+      ],
+      "reportCount": 15,
+      "internalId": "int_998877",
+      "lastSeen": "2024-01-14T23:45:00Z",
+      "firstSeen": "2023-06-15T08:20:00Z"
+    },
+    {
+      "id": "5f8a7b2c1d4e3a001f9c8d7f",
+      "value": {
+        "name": "198.51.100.42",
+        "id": "val_654321"
+      },
+      "type": "ip",
+      "riskScore": 72,
+      "activityRange": {
+        "startDate": "2023-11-01",
+        "endDate": "2024-01-10"
+      },
+      "confidenceLevel": {
+        "value": "medium",
+        "score": 65
+      },
+      "tlp": "green",
+      "active": false,
+      "benign": {
+        "value": false
+      },
+      "description": {
+        "name": "IP address used for phishing infrastructure"
+      },
+      "country": {
+        "name": "Ukraine",
+        "code": "UA"
+      },
+      "actors": [
+        {
+          "name": "FIN7",
+          "id": "actor_003"
+        }
+      ],
+      "malwares": [
+        {
+          "name": "Carbanak",
+          "id": "malware_003"
+        }
+      ],
+      "reportCount": 8
+    }
+  ],
+  "totalResults": 2,
+  "actors": [],
+  "metadata": {
+    "searchType": "indicator_match",
+    "queryTime": "2024-01-16T04:20:00Z",
+    "version": "1.0"
+  }
+}

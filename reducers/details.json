@@ -1,0 +1,41 @@
+{
+  "root": {
+    "path": "",
+    "on_null": "return_empty"
+  },
+  "pipeline": [
+    {
+      "op": "copy",
+      "from": "results[].value.name",
+      "to": "reduced_results.indicator_value_name"
+    },
+    {
+      "op": "copy",
+      "from": "results[].type",
+      "to": "reduced_results.indicator_type"
+    },
+    {
+      "op": "copy",
+      "from": "results[].riskScore",
+      "to": "reduced_results.risk_score"
+    },
+    {
+      "op": "copy",
+      "from": "results[].activityRange.endDate",
+      "to": "reduced_results.activity_end_date"
+    },
+    {
+      "op": "copy",
+      "from": "results[].confidenceLevel.value",
+      "to": "reduced_results.confidence_level"
+    },
+    {
+      "op": "prune",
+      "strategy": "empty_values",
+      "target": "reduced_results"
+    }
+  ],
+  "output": {
+    "result": "$working.reduced_results"
+  }
+}
